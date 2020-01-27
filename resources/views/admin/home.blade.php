@@ -17,6 +17,7 @@
                         <a href="{{route('caricatavoli')}}" class="btn btn-primary">Carica Tavoli</a>
                         <a href="{{route('caricamenu')}}" class="btn btn-primary">Carica Menu</a>
                         <a href="{{route('caricacamerieri')}}" class="btn btn-primary">Carica Camerieri</a>
+                        <a href="{{route('caricacategorie')}}" class="btn btn-primary">Carica Categorie</a>
 
                 </div>
             </div>

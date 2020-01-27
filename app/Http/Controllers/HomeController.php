@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Tavolo;
@@ -40,9 +41,9 @@ class HomeController extends Controller
         if ($tavolo->stato == 'libero'){
             return view('camerieri.coperti', compact('tavolo'));
         } elseif ($tavolo->stato == 'occupato') {
-            $menu = Food::all();
-            $ordine = Order::where('nr_tavolo', $tavolo->id)->get();
-            return view('camerieri.ordine', compact('tavolo', 'menu', 'ordine'));
+            $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
+            $ordine = Order::where('nrTavolo', $tavolo->id)->first();
+            return view('camerieri.ordine', compact('menu', 'ordine'));
         }
 
     }
@@ -57,11 +58,11 @@ class HomeController extends Controller
 
         $ordine = new Order();
         $ordine->user_id = Auth::user()->id;
-        $ordine->nr_tavolo = $tavolo->id;
-        $ordine->nr_persone = $coperti;
+        $ordine->nrTavolo = $tavolo->id;
+        $ordine->nrPersone = $coperti;
         $ordine->save();
 
-        $menu = Food::all();
-        return view('camerieri.ordine', compact('tavolo', 'menu', 'ordine'));
+        $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
+        return view('camerieri.ordine', compact( 'menu', 'ordine'));
     }
 }

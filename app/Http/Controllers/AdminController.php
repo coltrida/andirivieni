@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Food;
 use App\Models\Tavolo;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -55,13 +57,61 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function caricacategorie()
+    {
+        DB::table('categories')->delete();
+
+        $categoria = new Category();
+        $categoria->name = 'Primi';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Pizze';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Bevande';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Antipasti';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Tartare';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Hamburger';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Contorni';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Dolci';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Caffe';
+        $categoria->save();
+
+        $categoria = new Category();
+        $categoria->name = 'Amari';
+        $categoria->save();
+
+
+        return redirect()->back();
+    }
+
     public function caricamenu()
     {
         Food::truncate();
 
         $food = new Food();
         $food->name = 'carbonara';
-        $food->category = 'primi';
+        $food->category_id = 1;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -69,7 +119,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'pizza margherita';
-        $food->category = 'pizze';
+        $food->category_id = 2;
         $food->destinazione = 'pizzeria';
         $food->price = 5;
         $food->cost = 1;
@@ -77,7 +127,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'pizza funghi';
-        $food->category = 'pizze';
+        $food->category_id = 2;
         $food->destinazione = 'pizzeria';
         $food->price = 10;
         $food->cost = 2;
@@ -85,7 +135,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'coca';
-        $food->category = 'bevande';
+        $food->category_id = 3;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -93,7 +143,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'crostini';
-        $food->category = 'antipasto';
+        $food->category_id = 4;
         $food->destinazione = 'ristorante';
         $food->price = 8;
         $food->cost = 2;
@@ -101,7 +151,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'tagliere';
-        $food->category = 'antipasto';
+        $food->category_id = 4;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -109,7 +159,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'tartare grande';
-        $food->category = 'tartare';
+        $food->category_id = 5;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -117,7 +167,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'tartare piccolo';
-        $food->category = 'tartare';
+        $food->category_id = 5;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -125,7 +175,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'hamburger piccolo';
-        $food->category = 'hamburger';
+        $food->category_id = 6;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -133,7 +183,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'hamburger grande';
-        $food->category = 'hamburger';
+        $food->category_id = 6;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -141,7 +191,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'patatine';
-        $food->category = 'contorni';
+        $food->category_id = 7;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -149,7 +199,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'instalata';
-        $food->category = 'contorni';
+        $food->category_id = 7;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -157,7 +207,7 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'tiramisu';
-        $food->category = 'dolci';
+        $food->category_id = 8;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;
@@ -165,7 +215,39 @@ class AdminController extends Controller
 
         $food = new Food();
         $food->name = 'tartufo';
-        $food->category = 'dolci';
+        $food->category_id = 8;
+        $food->destinazione = 'ristorante';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'caffè lungo';
+        $food->category_id = 9;
+        $food->destinazione = 'ristorante';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'caffè macchiato';
+        $food->category_id = 9;
+        $food->destinazione = 'ristorante';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'fernet';
+        $food->category_id = 10;
+        $food->destinazione = 'ristorante';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'grappa';
+        $food->category_id = 10;
         $food->destinazione = 'ristorante';
         $food->price = 10;
         $food->cost = 2;

@@ -22,3 +22,4 @@ Route::post('/prenotaTavolo', 'HomeController@prenotaTavolo')->name('prenotaTavo
 Route::get('/caricatavoli', 'AdminController@caricatavoli')->name('caricatavoli');
 Route::get('/caricamenu', 'AdminController@caricamenu')->name('caricamenu');
 Route::get('/caricacamerieri', 'AdminController@caricacamerieri')->name('caricacamerieri');
+Route::get('/caricacategorie', 'AdminController@caricacategorie')->name('caricacategorie');
