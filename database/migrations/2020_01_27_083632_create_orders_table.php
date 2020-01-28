@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('user_id');
             $table->string('nrTavolo');
             $table->integer('nrPersone');
+            $table->string('stato');
             $table->string('note')->nullable();
             $table->timestamps();
         });

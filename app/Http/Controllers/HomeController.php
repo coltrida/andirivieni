@@ -42,7 +42,10 @@ class HomeController extends Controller
             return view('camerieri.coperti', compact('tavolo'));
         } elseif ($tavolo->stato == 'occupato') {
             $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
-            $ordine = Order::where('nrTavolo', $tavolo->id)->first();
+            $ordine = Order::where([
+                ['nrTavolo', $tavolo->id],
+                ['stato', 'occupato'],
+            ])->first();
             return view('camerieri.ordine', compact('menu', 'ordine'));
         }
 
@@ -60,6 +63,7 @@ class HomeController extends Controller
         $ordine->user_id = Auth::user()->id;
         $ordine->nrTavolo = $tavolo->id;
         $ordine->nrPersone = $coperti;
+        $ordine->stato = 'occupato';
         $ordine->save();
 
         $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
