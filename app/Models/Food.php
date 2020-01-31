@@ -12,4 +12,5 @@ class Food extends Model
     {
         return $this->belongsToMany(Order::class, 'foods_orders', 'food_id', 'order_id');
     }
+
 }

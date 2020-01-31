@@ -17,6 +17,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/selezioneTavolo/{tavolo}', 'HomeController@selezioneTavolo')->name('selezioneTavolo');
 Route::post('/prenotaTavolo', 'HomeController@prenotaTavolo')->name('prenotaTavolo');
+Route::post('/riepilogo', 'HomeController@riepilogo')->name('riepilogo');
 
 
 Route::get('/caricatavoli', 'AdminController@caricatavoli')->name('caricatavoli');

@@ -59,8 +59,10 @@
                                     <label for="radio3">Altro</label>
                                 </div>
 
-                                <form action="" method="post" id="formriepilogo">
+                                <form action="{{route('riepilogo')}}" method="post" id="formriepilogo">
                                     @csrf
+                                    <input type="hidden" name="tavolo" value="{{ $ordine->nrTavolo }}">
+                                    <input type="hidden" name="persone" value="{{ $ordine->nrPersone }}">
                                     <input type="submit" class="btn btn-success" style="height: 80px" value="Riepilogo">
                                 </form>
                             </div>
@@ -96,12 +98,16 @@
 
     function inseriscicomanda(nome, id) {
         var lista = '';
+        var ll = '';
         if (document.getElementById('radio1').checked) {
             lista = 'listamandata1';
+            ll = 1;
         }else if(document.getElementById('radio2').checked) {
             lista = 'listamandata2';
+            ll = 2;
         }else if(document.getElementById('radio3').checked) {
             lista = 'listaaltro';
+            ll = 3;
         }
         document.getElementById(lista).style.border = "1px solid black";
         document.getElementById(lista).style.padding = "10px";
@@ -111,9 +117,32 @@
         divtest.innerHTML =
             "<div style='display:flex;justify-content:space-between'><div>"
             + nome +
-            "<input type='hidden' name='piatto' value='"+id+"'></div> <div> <i class='fas fa-plus' onclick='aggiungi()'></i> <input style='width: 30px' type='number' name='qta' id='qta' value='1'><i class='fas fa-minus' onclick='diminuisci()'></i> </div></div> "
+            "</div> <div> <i class='fas fa-plus' onclick='aggiungi("+id+','+ll+")'></i> <input style='width:40px' type='number' min='0' name='qta' id='qta"+id+ll+"' value='1'><i class='fas fa-minus' onclick='diminuisci("+id+','+ll+")'></i> </div></div> "
             ;
         document.getElementById(lista).appendChild(divtest);
+
+        var piatto = [nome, 1, lista];
+        //console.log(piatto);
+        var aggiungipiatto = document.createElement("INPUT");
+        aggiungipiatto.setAttribute("type", "hidden");
+        aggiungipiatto.setAttribute("name", "dati["+id+ll+"][0]");
+        aggiungipiatto.setAttribute("id", 'passa'+id);
+        aggiungipiatto.setAttribute("value", piatto[0]);
+        document.getElementById('formriepilogo').appendChild(aggiungipiatto);
+
+        var aggiungipiatto2 = document.createElement("INPUT");
+        aggiungipiatto2.setAttribute("type", "hidden");
+        aggiungipiatto2.setAttribute("name", "dati["+id+ll+"][1]");
+        aggiungipiatto2.setAttribute("id", "qta"+id+ll+"1");
+        aggiungipiatto2.setAttribute("value", piatto[1]);
+        document.getElementById('formriepilogo').appendChild(aggiungipiatto2);
+
+        var aggiungipiatto3 = document.createElement("INPUT");
+        aggiungipiatto3.setAttribute("type", "hidden");
+        aggiungipiatto3.setAttribute("name", "dati["+id+ll+"][2]");
+        aggiungipiatto3.setAttribute("value", piatto[2]);
+        document.getElementById('formriepilogo').appendChild(aggiungipiatto3);
+
     }
 
     function vismandata(mandata) {
@@ -132,11 +161,41 @@
         }
     }
 
-    function aggiungi() {
+    function aggiungi(idpassato, dest) {
+        var idqta = "qta"+idpassato+dest;
+        valore = document.getElementById(idqta).value;
+        valore ++;
+        document.getElementById(idqta).value = valore;
+        var destinazione = '';
+        if (dest == 1) {
+            destinazione = 'listamandata1';
+        }else if(dest == 2) {
+            destinazione = 'listamandata2';
+        }else if(dest == 3) {
+            destinazione = 'listaaltro';
+        }
+
+        document.getElementById('qta'+idpassato+dest+'1').value = valore;
+
 
     }
 
-    function diminuisci() {
+    function diminuisci(idpassato, dest) {
+        var idqta = "qta"+idpassato+dest;
+        valore = document.getElementById(idqta).value;
+        if (valore > 0 ){
+            valore --;
+        }
+        document.getElementById(idqta).value = valore;
+        var destinazione = '';
+        if (dest == 1) {
+            destinazione = 'listamandata1';
+        }else if(dest == 2) {
+            destinazione = 'listamandata2';
+        }else if(dest == 3) {
+            destinazione = 'listaaltro';
+        }
 
+        document.getElementById('qta'+idpassato+dest+'1').value = valore;
     }
 </script>

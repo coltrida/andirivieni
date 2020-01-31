@@ -69,4 +69,22 @@ class HomeController extends Controller
         $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
         return view('camerieri.ordine', compact( 'menu', 'ordine'));
     }
+
+    public function riepilogo(Request $request)
+    {
+        $tavolo = $request->tavolo;
+        $coperti = $request->persone;
+        $piatti = $request->dati;
+        $collection = collect($piatti);
+
+        $grouped = $collection->groupBy(2);
+
+        $mandata1 = $grouped["listamandata1"];
+        $mandata2 = $grouped["listamandata2"];
+        $mandata3 = $grouped["listaaltro"];
+
+        //dd($mandata1);
+
+        return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3'));
+    }
 }
