@@ -18,6 +18,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/selezioneTavolo/{tavolo}', 'HomeController@selezioneTavolo')->name('selezioneTavolo');
 Route::post('/prenotaTavolo', 'HomeController@prenotaTavolo')->name('prenotaTavolo');
 Route::post('/riepilogo', 'HomeController@riepilogo')->name('riepilogo');
+Route::post('/inviaPrenotazione', 'HomeController@inviaPrenotazione')->name('inviaPrenotazione');
 
 
 Route::get('/caricatavoli', 'AdminController@caricatavoli')->name('caricatavoli');

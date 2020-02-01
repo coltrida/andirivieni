@@ -44,9 +44,69 @@
                         </div>
 
                             <div class="col-4"  style="display: flex; flex-direction: column">
-                                <div id="listamandata1">Mandata 1</div>
-                                <div id="listamandata2" style="display: none">Mandata 2</div>
-                                <div id="listaaltro" style="display: none">Altro</div>
+                                <div id="listamandata1" style="border: 1px solid black; padding: 10px; box-shadow: 1px 1px 3px black">
+                                    Mandata 1
+                                    @if(count($ordine->foods) > 0)
+                                        @foreach($ordine->foods as $piatto)
+                                            @if($piatto->pivot->mandata == 1)
+                                                <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
+                                                    <div style='display:flex;justify-content:space-between'>
+                                                        <div>
+                                                            {{ $piatto->name }}
+                                                        </div>
+                                                        <div>
+                                                            <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div id="listamandata2" style="border: 1px solid black; padding: 10px; box-shadow: 1px 1px 3px black; display: none">
+                                    Mandata 2
+                                    @if(count($ordine->foods) > 0)
+                                        @foreach($ordine->foods as $piatto)
+                                            @if($piatto->pivot->mandata == 2)
+                                                <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
+                                                    <div style='display:flex;justify-content:space-between'>
+                                                        <div>
+                                                            {{ $piatto->name }}
+                                                        </div>
+                                                        <div>
+                                                            <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div id="listaaltro" style="border: 1px solid black; padding: 10px; box-shadow: 1px 1px 3px black; display: none">
+                                    Altro
+                                    @if(count($ordine->foods) > 0)
+                                        @foreach($ordine->foods as $piatto)
+                                            @if($piatto->pivot->mandata == 3)
+                                                <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
+                                                    <div style='display:flex;justify-content:space-between'>
+                                                        <div>
+                                                            {{ $piatto->name }}
+                                                        </div>
+                                                        <div>
+                                                            <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
 
                             <div class="col-2" style="display: flex; flex-direction: column">
@@ -61,7 +121,22 @@
 
                                 <form action="{{route('riepilogo')}}" method="post" id="formriepilogo">
                                     @csrf
+                                    @if(count($ordine->foods) > 0)
+                                        @foreach($ordine->foods as $piatto)
+                                            <input type="hidden" id="passa{{ $piatto->id }}" name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][0]" value="{{ $piatto->name }}">
+                                            <input type="hidden" id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}1" name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][1]" value="{{ $piatto->pivot->quantity }}">
+                                            @if($piatto->pivot->mandata == 1)
+                                                <input type="hidden"  name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][2]" value="listamandata1">
+                                            @elseif($piatto->pivot->mandata == 2)
+                                                <input type="hidden"  name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][2]" value="listamandata2">
+                                            @elseif($piatto->pivot->mandata == 3)
+                                                <input type="hidden"  name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][2]" value="listaaltro">
+                                            @endif
+                                            <input type="hidden"  name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][3]" value="{{ $piatto->id }}">
+                                        @endforeach
+                                    @endif
                                     <input type="hidden" name="tavolo" value="{{ $ordine->nrTavolo }}">
+                                    <input type="hidden" name="ordine" value="{{ $ordine->id }}">
                                     <input type="hidden" name="persone" value="{{ $ordine->nrPersone }}">
                                     <input type="submit" class="btn btn-success" style="height: 80px" value="Riepilogo">
                                 </form>
@@ -109,9 +184,7 @@
             lista = 'listaaltro';
             ll = 3;
         }
-        document.getElementById(lista).style.border = "1px solid black";
-        document.getElementById(lista).style.padding = "10px";
-        document.getElementById(lista).style.boxShadow = "1px 1px 3px black";
+
         var divtest = document.createElement("div");
         divtest.style.cssText = 'background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px';
         divtest.innerHTML =
@@ -121,7 +194,7 @@
             ;
         document.getElementById(lista).appendChild(divtest);
 
-        var piatto = [nome, 1, lista];
+        var piatto = [nome, 1, lista, id];
         //console.log(piatto);
         var aggiungipiatto = document.createElement("INPUT");
         aggiungipiatto.setAttribute("type", "hidden");
@@ -143,6 +216,12 @@
         aggiungipiatto3.setAttribute("value", piatto[2]);
         document.getElementById('formriepilogo').appendChild(aggiungipiatto3);
 
+        var aggiungipiatto4 = document.createElement("INPUT");
+        aggiungipiatto4.setAttribute("type", "hidden");
+        aggiungipiatto4.setAttribute("name", "dati["+id+ll+"][3]");
+        aggiungipiatto4.setAttribute("value", piatto[3]);
+        document.getElementById('formriepilogo').appendChild(aggiungipiatto4);
+
     }
 
     function vismandata(mandata) {
@@ -162,7 +241,10 @@
     }
 
     function aggiungi(idpassato, dest) {
+
         var idqta = "qta"+idpassato+dest;
+        //alert(idqta);
+        //alert(document.getElementById(idqta).value);
         valore = document.getElementById(idqta).value;
         valore ++;
         document.getElementById(idqta).value = valore;
@@ -176,8 +258,6 @@
         }
 
         document.getElementById('qta'+idpassato+dest+'1').value = valore;
-
-
     }
 
     function diminuisci(idpassato, dest) {

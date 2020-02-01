@@ -8,9 +8,11 @@
                     <div class="card-header" style="display: flex; justify-content: space-between">
                         <div>Riepilogo</div>
                         <div>Tavolo nr. {{ $tavolo }}</div>
+                        <div>Coperti {{ $coperti }}</div>
                     </div>
 
                     <div class="card-body">
+
                         <div class="row">
                         <div class="col-md-4">
                             <h2>Prima Mandata</h2>
@@ -73,27 +75,19 @@
                             </div>
 
                         </div>
-                    </div>
-
-
-                    <div style="display: flex; justify-content: space-around; align-items: center;">
-
-                        <form action="{{ route('prenotaTavolo') }}" method="post">
+                        <form action="{{ route('inviaPrenotazione') }}" method="post">
                             @csrf
-                            <input type="hidden" name="tavolo" value="{{ $tavolo }}">
-                            <input type="hidden" name="coperti" id="prendicoperti" value="">
                             <div style="display: flex; justify-content: space-between;">
+                                <input type="hidden" name="ordine" value="{{ $ordine }}">
                                 <input type="submit" value="Ok" class="btn btn-primary mr-5">
-                                <a href="#" class="btn btn-danger">Annulla</a>
                             </div>
-
                         </form>
+                        <a href="{{ route('selezioneTavolo', $tavolo) }}" class="btn btn-danger">Annulla</a>
                     </div>
+
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 @endsection
 

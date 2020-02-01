@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Food;
+use App\Models\Food_Order;
 use App\Models\Order;
 use App\Models\Tavolo;
 use Illuminate\Http\Request;
@@ -42,10 +43,11 @@ class HomeController extends Controller
             return view('camerieri.coperti', compact('tavolo'));
         } elseif ($tavolo->stato == 'occupato') {
             $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
-            $ordine = Order::where([
+            $ordine = Order::with('foods')->where([
                 ['nrTavolo', $tavolo->id],
                 ['stato', 'occupato'],
             ])->first();
+
             return view('camerieri.ordine', compact('menu', 'ordine'));
         }
 
@@ -74,17 +76,50 @@ class HomeController extends Controller
     {
         $tavolo = $request->tavolo;
         $coperti = $request->persone;
+        $ordine = $request->ordine;
+
+        $cancellaPiatti = Food_Order::where('order_id', $ordine)->delete();
+
         $piatti = $request->dati;
         $collection = collect($piatti);
-
         $grouped = $collection->groupBy(2);
 
-        $mandata1 = $grouped["listamandata1"];
-        $mandata2 = $grouped["listamandata2"];
-        $mandata3 = $grouped["listaaltro"];
+        isset($grouped["listamandata1"]) ? $mandata1 = $grouped["listamandata1"] : $mandata1 = collect([]);
+        isset($grouped["listamandata2"]) ? $mandata2 = $grouped["listamandata2"] : $mandata2 = collect([]);
+        isset($grouped["listaaltro"]) ? $mandata3 = $grouped["listaaltro"] : $mandata3 = collect([]);
 
-        //dd($mandata1);
+        foreach ($mandata1 as $item){
+            $food_order = new Food_Order();
+            $food_order->order_id = $ordine;
+            $food_order->food_id = $item[3];
+            $food_order->quantity = $item[1];
+            $food_order->mandata = 1;
+            $food_order->save();
+        }
 
-        return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3'));
+        foreach ($mandata2 as $item){
+            $food_order = new Food_Order();
+            $food_order->order_id = $ordine;
+            $food_order->food_id = $item[3];
+            $food_order->quantity = $item[1];
+            $food_order->mandata = 2;
+            $food_order->save();
+        }
+
+        foreach ($mandata3 as $item){
+            $food_order = new Food_Order();
+            $food_order->order_id = $ordine;
+            $food_order->food_id = $item[3];
+            $food_order->quantity = $item[1];
+            $food_order->mandata = 3;
+            $food_order->save();
+        }
+
+        return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3', 'ordine'));
+    }
+
+    public function inviaPrenotazione(Request $request)
+    {
+
     }
 }

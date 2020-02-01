@@ -24,11 +24,7 @@ class AdminController extends Controller
         for ($i = 1; $i <=25; $i++){
             $tavolo = new Tavolo();
             $tavolo->id = $i;
-            if ($i == 2){
-                $tavolo->stato = 'occupato';
-            } else {
-                $tavolo->stato = 'libero';
-            }
+            $tavolo->stato = 'libero';
 
             $tavolo->save();
         }
