@@ -130,6 +130,62 @@ class AdminController extends Controller
         $food->save();
 
         $food = new Food();
+        $food->name = 'pizza bianca';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza rossa';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza verde';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza nera';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza blu';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza gialla';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
+        $food->name = 'pizza rosa';
+        $food->category_id = 2;
+        $food->destinazione = 'pizzeria';
+        $food->price = 10;
+        $food->cost = 2;
+        $food->save();
+
+        $food = new Food();
         $food->name = 'coca';
         $food->category_id = 3;
         $food->destinazione = 'ristorante';

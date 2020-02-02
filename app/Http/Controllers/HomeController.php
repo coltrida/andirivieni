@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewOrderCreated;
 use App\Models\Category;
 use App\Models\Food;
 use App\Models\Food_Order;
@@ -29,12 +30,21 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $tavoli = Tavolo::all();
         if (Auth::user()->isAdmin()){
-            return view('admin.home');
+            $ordini = $this->getNuoviOrdini();
+            //dd($ordini);
+            return view('admin.home', compact('tavoli', 'ordini'));
         } else {
-            $tavoli = Tavolo::all();
             return view('camerieri.home', compact('tavoli'));
         }
+    }
+
+    public function getNuoviOrdini()
+    {
+
+        return $ordini = Order::where('stato', 'inviato')->get();
+
     }
 
     public function selezioneTavolo(Tavolo $tavolo)
@@ -118,8 +128,11 @@ class HomeController extends Controller
         return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3', 'ordine'));
     }
 
-    public function inviaPrenotazione(Request $request)
+    public function inviaPrenotazione(Order $order)
     {
-
+        $order->stato = 'inviato';
+        $order->save();
+        //event(new NewOrderCreated($order));
+        return redirect()->route('home');
     }
 }

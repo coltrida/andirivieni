@@ -75,13 +75,14 @@
                             </div>
 
                         </div>
-                        <form action="{{ route('inviaPrenotazione') }}" method="post">
+                        {{--<form action="{{ route('inviaPrenotazione') }}" method="post">
                             @csrf
                             <div style="display: flex; justify-content: space-between;">
                                 <input type="hidden" name="ordine" value="{{ $ordine }}">
                                 <input type="submit" value="Ok" class="btn btn-primary mr-5">
                             </div>
-                        </form>
+                        </form>--}}
+                        <a href="{{ route('inviaPrenotazione', $ordine) }}" class="btn btn-primary">ok</a>
                         <a href="{{ route('selezioneTavolo', $tavolo) }}" class="btn btn-danger">Annulla</a>
                     </div>
 

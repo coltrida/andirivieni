@@ -17,9 +17,9 @@ class CreateFoodsOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('order_id')->unsigned();
             $table->bigInteger('food_id')->unsigned();
-            $table->unique(['order_id','food_id']);
             $table->integer('quantity');
             $table->string('mandata');
+            $table->unique(['order_id','food_id', 'mandata']);
             $table->timestamps();
         });
     }

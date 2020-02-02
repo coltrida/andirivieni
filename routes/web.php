@@ -18,7 +18,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/selezioneTavolo/{tavolo}', 'HomeController@selezioneTavolo')->name('selezioneTavolo');
 Route::post('/prenotaTavolo', 'HomeController@prenotaTavolo')->name('prenotaTavolo');
 Route::post('/riepilogo', 'HomeController@riepilogo')->name('riepilogo');
-Route::post('/inviaPrenotazione', 'HomeController@inviaPrenotazione')->name('inviaPrenotazione');
+Route::get('/inviaPrenotazione/{order}', 'HomeController@inviaPrenotazione')->name('inviaPrenotazione');
+Route::get('/getNuoviOrdini', 'HomeController@getNuoviOrdini')->name('getNuoviOrdini');
 
 
 Route::get('/caricatavoli', 'AdminController@caricatavoli')->name('caricatavoli');
