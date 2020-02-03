@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('/tavoli', 'Api\HomeController');
+Route::apiResource('/camerieri', 'Api\HomeController');
+
+Route::get('/camerieri', 'Api\HomeController@camerieri');
+Route::get('/ordini', 'Api\HomeController@ordini');
+Route::get('/piatti', 'Api\HomeController@piatti');
+Route::get('/piattiOrdine', 'Api\HomeController@piattiOrdine');
+Route::get('/piattiOrdineSpecifico/{order}', 'Api\HomeController@piattiOrdineSpecifico');
+
