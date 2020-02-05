@@ -39,7 +39,13 @@
                     for (i=0; i<resp.responseJSON.length; i++){
                         var piatto = resp.responseJSON[i];
                         //alert(piatto);
-                        tabella.append("<tr><td>"+piatto.nrTavolo+"</td><td>"+piatto.nrPersone+"</td><td>"+piatto.user_id+"</td><td><a class='btn btn-success'>vedi</a></td></tr>");
+                        var id = piatto.id;
+                        var prelinkOrdine = '{{ route('infoOrdine', ":id") }}';
+                        var linkOrdine = prelinkOrdine.replace(':id', id);
+                        tabella.append("<tr><td>"+piatto.nrTavolo+"</td>" +
+                            "<td>"+piatto.nrPersone+"</td>" +
+                            "<td>"+piatto.user_id+"</td>" +
+                            "<td><a target='_blank' href='"+linkOrdine+"' class='btn btn-success'>vedi</a></td></tr>");
                     }
                 }
             });

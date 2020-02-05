@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Food;
+use App\Models\Order;
 use App\Models\Tavolo;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -306,5 +308,19 @@ class AdminController extends Controller
         $food->save();
 
         return redirect()->back();
+    }
+
+    public function infoOrdine(Order $order)
+    {
+        $grouped = $order->foods->groupBy(function ($item) {
+            return $item->pivot->mandata;
+        });
+
+        //return view('admin.infoOrdine', compact('order','grouped'));
+
+        $pdf = App::make('dompdf.wrapper');
+        //$pdf->loadHTML('<h1>Test</h1>');
+        return $pdf->loadView('admin.infoOrdinePdf', compact('order','grouped'))
+            ->stream();
     }
 }

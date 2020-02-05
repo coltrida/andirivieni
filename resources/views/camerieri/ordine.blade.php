@@ -51,7 +51,7 @@
                                             @if($piatto->pivot->mandata == 1)
                                                 <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
                                                     <div style='display:flex;justify-content:space-between'>
-                                                        <div>
+                                                        <div id="elem{{$piatto->id}}1">
                                                             {{ $piatto->name }}
                                                         </div>
                                                         <div>
@@ -72,7 +72,7 @@
                                             @if($piatto->pivot->mandata == 2)
                                                 <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
                                                     <div style='display:flex;justify-content:space-between'>
-                                                        <div>
+                                                        <div id="elem{{$piatto->id}}2">
                                                             {{ $piatto->name }}
                                                         </div>
                                                         <div>
@@ -93,7 +93,7 @@
                                             @if($piatto->pivot->mandata == 3)
                                                 <div style="background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px">
                                                     <div style='display:flex;justify-content:space-between'>
-                                                        <div>
+                                                        <div id="elem{{$piatto->id}}3">
                                                             {{ $piatto->name }}
                                                         </div>
                                                         <div>
@@ -185,43 +185,50 @@
             ll = 3;
         }
 
-        var divtest = document.createElement("div");
-        divtest.style.cssText = 'background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px';
-        divtest.innerHTML =
-            "<div style='display:flex;justify-content:space-between'><div>"
-            + nome +
-            "</div> <div> <i class='fas fa-plus' onclick='aggiungi("+id+','+ll+")'></i> <input style='width:40px' type='number' min='0' name='qta' id='qta"+id+ll+"' value='1'><i class='fas fa-minus' onclick='diminuisci("+id+','+ll+")'></i> </div></div> "
+        var myEle = document.getElementById("elem"+id+ll);
+
+        if(myEle){
+            alert('esiste')
+        } else {
+
+            var divtest = document.createElement("div");
+            divtest.style.cssText = 'background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px';
+            divtest.innerHTML =
+                "<div id='elem" + id + ll + "' style='display:flex;justify-content:space-between'><div>"
+                + nome +
+                "</div> <div> <i class='fas fa-plus' onclick='aggiungi(" + id + ',' + ll + ")'></i> <input style='width:40px' type='number' min='0' name='qta' id='qta" + id + ll + "' value='1'><i class='fas fa-minus' onclick='diminuisci(" + id + ',' + ll + ")'></i> </div></div> "
             ;
-        document.getElementById(lista).appendChild(divtest);
 
-        var piatto = [nome, 1, lista, id];
-        //console.log(piatto);
-        var aggiungipiatto = document.createElement("INPUT");
-        aggiungipiatto.setAttribute("type", "hidden");
-        aggiungipiatto.setAttribute("name", "dati["+id+ll+"][0]");
-        aggiungipiatto.setAttribute("id", 'passa'+id);
-        aggiungipiatto.setAttribute("value", piatto[0]);
-        document.getElementById('formriepilogo').appendChild(aggiungipiatto);
+            document.getElementById(lista).appendChild(divtest);
 
-        var aggiungipiatto2 = document.createElement("INPUT");
-        aggiungipiatto2.setAttribute("type", "hidden");
-        aggiungipiatto2.setAttribute("name", "dati["+id+ll+"][1]");
-        aggiungipiatto2.setAttribute("id", "qta"+id+ll+"1");
-        aggiungipiatto2.setAttribute("value", piatto[1]);
-        document.getElementById('formriepilogo').appendChild(aggiungipiatto2);
+            var piatto = [nome, 1, lista, id];
+            //console.log(piatto);
+            var aggiungipiatto = document.createElement("INPUT");
+            aggiungipiatto.setAttribute("type", "hidden");
+            aggiungipiatto.setAttribute("name", "dati[" + id + ll + "][0]");
+            aggiungipiatto.setAttribute("id", 'passa' + id);
+            aggiungipiatto.setAttribute("value", piatto[0]);
+            document.getElementById('formriepilogo').appendChild(aggiungipiatto);
 
-        var aggiungipiatto3 = document.createElement("INPUT");
-        aggiungipiatto3.setAttribute("type", "hidden");
-        aggiungipiatto3.setAttribute("name", "dati["+id+ll+"][2]");
-        aggiungipiatto3.setAttribute("value", piatto[2]);
-        document.getElementById('formriepilogo').appendChild(aggiungipiatto3);
+            var aggiungipiatto2 = document.createElement("INPUT");
+            aggiungipiatto2.setAttribute("type", "hidden");
+            aggiungipiatto2.setAttribute("name", "dati[" + id + ll + "][1]");
+            aggiungipiatto2.setAttribute("id", "qta" + id + ll + "1");
+            aggiungipiatto2.setAttribute("value", piatto[1]);
+            document.getElementById('formriepilogo').appendChild(aggiungipiatto2);
 
-        var aggiungipiatto4 = document.createElement("INPUT");
-        aggiungipiatto4.setAttribute("type", "hidden");
-        aggiungipiatto4.setAttribute("name", "dati["+id+ll+"][3]");
-        aggiungipiatto4.setAttribute("value", piatto[3]);
-        document.getElementById('formriepilogo').appendChild(aggiungipiatto4);
+            var aggiungipiatto3 = document.createElement("INPUT");
+            aggiungipiatto3.setAttribute("type", "hidden");
+            aggiungipiatto3.setAttribute("name", "dati[" + id + ll + "][2]");
+            aggiungipiatto3.setAttribute("value", piatto[2]);
+            document.getElementById('formriepilogo').appendChild(aggiungipiatto3);
 
+            var aggiungipiatto4 = document.createElement("INPUT");
+            aggiungipiatto4.setAttribute("type", "hidden");
+            aggiungipiatto4.setAttribute("name", "dati[" + id + ll + "][3]");
+            aggiungipiatto4.setAttribute("value", piatto[3]);
+            document.getElementById('formriepilogo').appendChild(aggiungipiatto4);
+        }
     }
 
     function vismandata(mandata) {
@@ -262,20 +269,27 @@
 
     function diminuisci(idpassato, dest) {
         var idqta = "qta"+idpassato+dest;
+        var ide = "elem"+idpassato+dest;
+        //alert(ide);
         valore = document.getElementById(idqta).value;
-        if (valore > 0 ){
+        if (valore > 1 ){
             valore --;
-        }
-        document.getElementById(idqta).value = valore;
-        var destinazione = '';
-        if (dest == 1) {
-            destinazione = 'listamandata1';
-        }else if(dest == 2) {
-            destinazione = 'listamandata2';
-        }else if(dest == 3) {
-            destinazione = 'listaaltro';
+
+            document.getElementById(idqta).value = valore;
+            var destinazione = '';
+            if (dest == 1) {
+                destinazione = 'listamandata1';
+            }else if(dest == 2) {
+                destinazione = 'listamandata2';
+            }else if(dest == 3) {
+                destinazione = 'listaaltro';
+            }
+
+            document.getElementById('qta'+idpassato+dest+'1').value = valore;
+        } else {
+            document.getElementById(idqta).parentNode.parentNode.parentNode.remove();
+
         }
 
-        document.getElementById('qta'+idpassato+dest+'1').value = valore;
     }
 </script>

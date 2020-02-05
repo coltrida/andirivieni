@@ -13,7 +13,7 @@
                 <td>{{$ordine->nrTavolo}}</td>
                 <td>{{$ordine->nrPersone}}</td>
                 <td>{{$ordine->user_id}}</td>
-                <td><a href="" class="btn btn-success">Vedi</a></td>
+                <td><a target="_blank" href="{{route('infoOrdine', $ordine->id)}}" class="btn btn-success">Vedi</a></td>
         </tr>
         @endforeach
         </tbody>

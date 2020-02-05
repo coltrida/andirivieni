@@ -43,7 +43,7 @@ class HomeController extends Controller
     public function getNuoviOrdini()
     {
 
-        return $ordini = Order::where('stato', 'inviato')->get();
+        return $ordini = Order::where('stato', 'inviato')->latest()->get();
 
     }
 
@@ -55,8 +55,10 @@ class HomeController extends Controller
             $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
             $ordine = Order::with('foods')->where([
                 ['nrTavolo', $tavolo->id],
-                ['stato', 'occupato'],
+                ['stato', '!=', 'libero'],
             ])->first();
+
+            //dd($ordine);
 
             return view('camerieri.ordine', compact('menu', 'ordine'));
         }
