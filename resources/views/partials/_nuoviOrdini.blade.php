@@ -4,6 +4,7 @@
                 <th scope="col">Nr. Tavolo</th>
                 <th scope="col">Coperti</th>
                 <th scope="col">Cameriere</th>
+                <th scope="col">Orario Comanda</th>
                 <th scope="col">Azioni</th>
         </tr>
         </thead>
@@ -12,8 +13,12 @@
         <tr>
                 <td>{{$ordine->nrTavolo}}</td>
                 <td>{{$ordine->nrPersone}}</td>
-                <td>{{$ordine->user_id}}</td>
-                <td><a target="_blank" href="{{route('infoOrdine', $ordine->id)}}" class="btn btn-success">Vedi</a></td>
+                <td>{{$ordine->user->name}}</td>
+                <td>{{$ordine->orario}}</td>
+                <td>
+                        <a href="{{route('infoOrdine', $ordine->id)}}" class="btn btn-success">Vedi</a>
+                        <a href="{{route('chiudiOrdine', $ordine->id)}}" class="btn btn-danger">chiudi</a>
+                </td>
         </tr>
         @endforeach
         </tbody>

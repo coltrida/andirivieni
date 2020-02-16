@@ -47,6 +47,13 @@ class HomeController extends Controller
 
     }
 
+    public function getStatoTavoli()
+    {
+
+        return $tavoli = Tavolo::all();
+
+    }
+
     public function selezioneTavolo(Tavolo $tavolo)
     {
         if ($tavolo->stato == 'libero'){
@@ -80,17 +87,20 @@ class HomeController extends Controller
         $ordine->stato = 'occupato';
         $ordine->save();
 
-        $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
+        $menu = Category::orderBy('id', 'ASC')->with(['foods' => function ($query) {
+            $query->where('inmenu', true);
+        }])->get();
         return view('camerieri.ordine', compact( 'menu', 'ordine'));
     }
 
-    public function riepilogo(Request $request)
+    public function riepilogo(Request $request, Order $order)
     {
         $tavolo = $request->tavolo;
         $coperti = $request->persone;
-        $ordine = $request->ordine;
+        $order->note = $request->note;
+        $order->save();
 
-        $cancellaPiatti = Food_Order::where('order_id', $ordine)->delete();
+        $cancellaPiatti = Food_Order::where('order_id', $order->id)->delete();
 
         $piatti = $request->dati;
         $collection = collect($piatti);
@@ -102,7 +112,7 @@ class HomeController extends Controller
 
         foreach ($mandata1 as $item){
             $food_order = new Food_Order();
-            $food_order->order_id = $ordine;
+            $food_order->order_id = $order->id;
             $food_order->food_id = $item[3];
             $food_order->quantity = $item[1];
             $food_order->mandata = 1;
@@ -111,7 +121,7 @@ class HomeController extends Controller
 
         foreach ($mandata2 as $item){
             $food_order = new Food_Order();
-            $food_order->order_id = $ordine;
+            $food_order->order_id = $order->id;
             $food_order->food_id = $item[3];
             $food_order->quantity = $item[1];
             $food_order->mandata = 2;
@@ -120,14 +130,14 @@ class HomeController extends Controller
 
         foreach ($mandata3 as $item){
             $food_order = new Food_Order();
-            $food_order->order_id = $ordine;
+            $food_order->order_id = $order->id;
             $food_order->food_id = $item[3];
             $food_order->quantity = $item[1];
             $food_order->mandata = 3;
             $food_order->save();
         }
 
-        return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3', 'ordine'));
+        return view('camerieri.riepilogo', compact( 'tavolo', 'coperti', 'mandata1', 'mandata2', 'mandata3', 'order'));
     }
 
     public function inviaPrenotazione(Order $order)

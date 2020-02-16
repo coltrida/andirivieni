@@ -17,7 +17,7 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-3" style="display: flex; flex-direction: column">
+                        <div class="col-2" style="display: flex; flex-direction: column">
                             @foreach($menu as $item)
                                 <a href="#" class="btn btn-success"
                                    onclick="vis( '{{ $item->id }}', {{ count($menu) }} )"
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-2" style="display: flex; flex-direction: column">
+                            <div class="col-3" style="display: flex; flex-direction: column">
                                 <div class="switch-field">
                                     <input type="radio" id="radio1" name="switch-two" onclick="vismandata(1)" value="Mandata1" checked/>
                                     <label for="radio1">Mandata1</label>
@@ -119,8 +119,9 @@
                                     <label for="radio3">Altro</label>
                                 </div>
 
-                                <form action="{{route('riepilogo')}}" method="post" id="formriepilogo">
+                                <form action="{{route('riepilogo', $ordine)}}" method="post" id="formriepilogo">
                                     @csrf
+                                    Note: <input class="form-control" type="text" name="note" id="note" value="{{ $ordine->note }}"> <br>
                                     @if(count($ordine->foods) > 0)
                                         @foreach($ordine->foods as $piatto)
                                             <input type="hidden" id="passa{{ $piatto->id }}" name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][0]" value="{{ $piatto->name }}">
@@ -136,7 +137,6 @@
                                         @endforeach
                                     @endif
                                     <input type="hidden" name="tavolo" value="{{ $ordine->nrTavolo }}">
-                                    <input type="hidden" name="ordine" value="{{ $ordine->id }}">
                                     <input type="hidden" name="persone" value="{{ $ordine->nrPersone }}">
                                     <input type="submit" class="btn btn-success" style="height: 80px" value="Riepilogo">
                                 </form>

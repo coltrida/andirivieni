@@ -23,6 +23,7 @@ class CreateFoodsTable extends Migration
             $table->string('destinazione');
             $table->integer('price');
             $table->integer('cost');
+            $table->boolean('inmenu');
             $table->timestamps();
         });
     }

@@ -10,7 +10,18 @@ class Food extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'foods_orders', 'food_id', 'order_id');
+        return $this->belongsToMany(Order::class, 'foods_orders', 'food_id', 'order_id')
+            ->withPivot('quantity');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Category::class,  'category_id', 'id');
+    }
+
+    public function foodorders()
+    {
+        return $this->hasMany(Food_Order::class);
     }
 
 }

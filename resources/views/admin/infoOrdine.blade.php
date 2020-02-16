@@ -36,6 +36,7 @@
                             </div>
                         @endforeach
                         <br>
+                        <hr>
                     @endforeach
                         <div class="row" style="background-color: #dfae69">
                             <div class="col-3">Totale</div>
@@ -44,9 +45,13 @@
                             <div class="col-3">@php echo '€ '.$totale @endphp</div>
                         </div>
                         <br>
-
+                    <div class="row">
+                        <div class="col-3">Note</div>
+                        <div class="col-9">{{ $order->note }}</div>
+                    </div>
+                    <br>
                     <div style="display: flex; justify-content: space-between">
-                        <div><a href="" class="btn btn-success">Stampa</a></div>
+                        <div><a target="_blank" href="{{ route('stampaOrdine', $order->id) }}" class="btn btn-success">Stampa</a></div>
                         <div><a href="{{ route('home') }}" class="btn btn-danger">Indietro</a></div>
                     </div>
 

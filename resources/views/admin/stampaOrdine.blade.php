@@ -22,29 +22,24 @@
                             <div style="display: inline-block; width: 20%; font-size: 15px">Piatto</div>
                             <div style="display: inline-block; width: 20%; font-size: 15px">Quantità</div>
                             <div style="display: inline-block; width: 20%; font-size: 15px">Destinazione</div>
-                            <div style="display: inline-block; width: 20%; font-size: 15px">Prezzo</div>
                         </div>
 
                         @foreach ($foods as $food)
 
                             <div class="row" style="width: 100%">
-                                <div style="display: inline-block; width: 20%; font-size: 15px">{{$food->name}}</div>
-                                <div style="display: inline-block; width: 20%; font-size: 15px">{{$food->pivot->quantity}}</div>
-                                <div style="display: inline-block; width: 20%; font-size: 15px">{{$food->destinazione}}</div>
-                                <div style="display: inline-block; width: 20%; font-size: 15px">€ {{$food->price}}</div>
-                                @php $totale += $food->price @endphp
+                                <div style="display: inline-block; width: 20%; font-size: 15px; margin-top: 2px">{{$food->name}}</div>
+                                <div style="display: inline-block; width: 20%; font-size: 15px; margin-top: 2px">{{$food->pivot->quantity}}</div>
+                                <div style="display: inline-block; width: 20%; font-size: 15px; margin-top: 2px">{{$food->destinazione}}</div>
                             </div>
                         @endforeach
                         <br>
+                        <hr>
                     @endforeach
-                    <div class="row" style="background-color: #dfae69; width: 100%">
-                        <div style="display: inline-block; width: 20%; font-size: 15px">Totale</div>
-                        <div style="display: inline-block; width: 20%; font-size: 15px">&nbsp;</div>
-                        <div style="display: inline-block; width: 20%; font-size: 15px">&nbsp;</div>
-                        <div style="display: inline-block; width: 20%; font-size: 15px">@php echo '€ '.$totale @endphp</div>
-                    </div>
                     <br>
-
+                    <div class="row" style="width: 100%">
+                        <div style="display: inline-block; width: 20%; font-size: 15px">Note</div>
+                        <div style="display: inline-block; width: 60%; font-size: 15px">{{ $order->note }}</div>
+                    </div>
                 </div>
             </div>
         </div>

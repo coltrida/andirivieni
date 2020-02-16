@@ -12,29 +12,28 @@
                     </div>
 
                     <div class="card-body">
-
                         <div class="row">
-                        <div class="col-md-4">
-                            <h2>Prima Mandata</h2>
-                            <table class="table table-striped table-dark">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Piatto</th>
-                                    <th scope="col">Quantità</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($mandata1 as $lista)
+                            <div class="col-md-4">
+                                <h2>Prima Mandata</h2>
+                                <table class="table table-striped table-dark">
+                                    <thead>
                                     <tr>
-                                        <td>{{ $lista[0] }}</td>
-                                        <td>{{ $lista[1] }}</td>
+                                        <th scope="col">Piatto</th>
+                                        <th scope="col">Quantità</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($mandata1 as $lista)
+                                        <tr>
+                                            <td>{{ $lista[0] }}</td>
+                                            <td>{{ $lista[1] }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        <div class="col-md-4">
+                            <div class="col-md-4">
                                 <h2>Seconda Mandata</h2>
                                 <table class="table table-striped table-dark">
                                     <thead>
@@ -73,16 +72,15 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="alert alert-danger" style="margin-left: 15px"  role="alert">
+                                <div>
+                                    Note: {{ $order->note }}
+                                </div>
+
+                            </div>
 
                         </div>
-                        {{--<form action="{{ route('inviaPrenotazione') }}" method="post">
-                            @csrf
-                            <div style="display: flex; justify-content: space-between;">
-                                <input type="hidden" name="ordine" value="{{ $ordine }}">
-                                <input type="submit" value="Ok" class="btn btn-primary mr-5">
-                            </div>
-                        </form>--}}
-                        <a href="{{ route('inviaPrenotazione', $ordine) }}" class="btn btn-primary">ok</a>
+                        <a href="{{ route('inviaPrenotazione', $order->id) }}" class="btn btn-primary">ok</a>
                         <a href="{{ route('selezioneTavolo', $tavolo) }}" class="btn btn-danger">Annulla</a>
                     </div>
 

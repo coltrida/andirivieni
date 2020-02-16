@@ -42,7 +42,7 @@
                                     <input type="hidden" name="tavolo" value="{{ $tavolo->id }}">
                                     <input type="hidden" name="coperti" id="prendicoperti" value="">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <input type="submit" value="Ok" class="btn btn-primary mr-5">
+                                        <input type="submit" id="buttonok" value="Ok" class="btn btn-primary mr-5 not-active">
                                         <a href="#" class="btn btn-danger">Annulla</a>
                                     </div>
 
@@ -64,6 +64,8 @@
 
     
     function aggiungi() {
+        var button = document.getElementById('buttonok');
+        button.classList.remove('not-active');
         cop = parseInt(document.getElementById('coperti').value);
         cop ++;
         document.getElementById('coperti').value = cop;
@@ -72,8 +74,15 @@
 
     function diminuisci() {
         cop = parseInt(document.getElementById('coperti').value);
-        cop --;
+        if (cop <= 1){
+            var button = document.getElementById('buttonok');
+            button.classList.add('not-active');
+            cop = 0;
+        } else {
+            cop --;
+        }
         document.getElementById('coperti').value = cop;
         document.getElementById('prendicoperti').value = cop;
     }
+
 </script>
