@@ -15,11 +15,11 @@
                         <div class="form-row">
                             <div class="col">
                                 Nome
-                                <input type="text" class="form-control" name="food">
+                                <input type="text" required class="form-control" name="food">
                             </div>
                             <div class="col">
                                 Categoria
-                                <select class="form-control" name="categoria">
+                                <select class="form-control" required name="categoria">
                                     <option selected> </option>
                                     @foreach($categorie as $categoria)
                                         <option value="{{ $categoria->id }}"> {{ $categoria->name }} </option>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="col">
                                 Destinazione
-                                <select class="form-control" name="destinazione">
+                                <select class="form-control" required name="destinazione">
                                     <option selected> </option>
                                         <option value="ristorante"> Ristorante </option>
                                         <option value="pizzeria"> Pizzeria </option>
@@ -36,11 +36,11 @@
                             </div>
                             <div class="col">
                                 Prezzo al pubblico
-                                <input type="number" class="form-control" name="prezzo">
+                                <input type="number" required step="any" class="form-control" name="prezzo">
                             </div>
                             <div class="col">
                                 Costo
-                                <input type="number" class="form-control" name="costo">
+                                <input type="number" required step="any" class="form-control" name="costo">
                             </div>
                         </div>
                         <br>
@@ -72,8 +72,8 @@
                                 <td>{{ $food->name }}</td>
                                 <td>{{ $food->categoria->name }}</td>
                                 <td>{{ $food->destinazione }}</td>
-                                <td>{{ $food->price }}</td>
-                                <td>{{ $food->cost }}</td>
+                                <td>{{ str_replace('.', ',', $food->price) }}</td>
+                                <td>{{ str_replace('.', ',', $food->cost) }}</td>
                                 <td>
                                     @if($food->inmenu == 1)
                                         <span class="badge badge-success" style="padding: 10px">si</span>
@@ -82,8 +82,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('eliminaPiatto', $food->id) }}" class="btn btn-danger">Elimina dal menu</a>
-                                    <a href="{{ route('rimettiPiatto', $food->id) }}" class="btn btn-success">Rimetti nel menu</a>
+                                    @if($food->inmenu == 1)
+                                        <a href="{{ route('eliminaPiatto', $food->id) }}" class="btn btn-danger">Elimina dal menu</a>
+                                    @else
+                                        <a href="{{ route('rimettiPiatto', $food->id) }}" class="btn btn-success">Rimetti nel menu</a>
+                                    @endif
                                     <a href="{{ route('modificaPiatto', $food->id) }}" class="btn btn-primary">Modifica</a>
                                 </td>
                             </tr>

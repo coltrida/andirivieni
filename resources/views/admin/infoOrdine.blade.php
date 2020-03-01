@@ -20,35 +20,60 @@
                    <h2>{{ $mandata == 3 ? 'Altro' : 'Mandata '.$mandata }}</h2>
                         <div class="row" style="background-color: #98dfb6">
                             <div class="col-3">Piatto</div>
-                            <div class="col-3">Quantità</div>
+                            <div class="col-2">Quantità</div>
                             <div class="col-3">Destinazione</div>
-                            <div class="col-3">Prezzo</div>
+                            <div class="col-2">Prezzo Unitario</div>
+                            <div class="col-2">Prezzo Totale</div>
                         </div>
 
                         @foreach ($foods as $food)
 
                             <div class="row">
                                 <div class="col-3">{{$food->name}}</div>
-                                <div class="col-3">{{$food->pivot->quantity}}</div>
+                                <div class="col-2">{{$food->pivot->quantity}}</div>
                                 <div class="col-3">{{$food->destinazione}}</div>
-                                <div class="col-3">€ {{$food->price}}</div>
-                                @php $totale += $food->price @endphp
+                                <div class="col-2">€ {{str_replace('.', ',', $food->price)}}</div>
+                                <div class="col-2">€ {{str_replace('.', ',', $food->price * $food->pivot->quantity)}}</div>
+                                @php $totale += ($food->price * $food->pivot->quantity) @endphp
                             </div>
                         @endforeach
                         <br>
                         <hr>
                     @endforeach
+                        <div class="row">
+                            <div class="col-3">Coperto</div>
+                            <div class="col-2">&nbsp;</div>
+                            <div class="col-3">&nbsp;</div>
+                            <div class="col-2">&nbsp;</div>
+                            <div class="col-2">@php echo '€ '.str_replace('.', ',', $order->nrPersone * 1.5)  @endphp</div>
+                        </div>
+                    <br>
                         <div class="row" style="background-color: #dfae69">
                             <div class="col-3">Totale</div>
+                            <div class="col-2">&nbsp;</div>
                             <div class="col-3">&nbsp;</div>
-                            <div class="col-3">&nbsp;</div>
-                            <div class="col-3">@php echo '€ '.$totale @endphp</div>
+                            <div class="col-2">&nbsp;</div>
+                            <div class="col-2">@php echo '€ '.str_replace('.', ',', $totale + ($order->nrPersone * 1.5) ) @endphp</div>
                         </div>
                         <br>
+                    @if($order->note)
+                        <div class="row">
+                            <div class="col-3">Note Prima Mandata</div>
+                            <div class="col-9">{{ $order->note }}</div>
+                        </div>
+                    @endif
+                    @if($order->note2)
+                        <div class="row">
+                            <div class="col-3">Note Seconda Mandata</div>
+                            <div class="col-9">{{ $order->note2 }}</div>
+                        </div>
+                    @endif
+                    @if($order->note3)
                     <div class="row">
-                        <div class="col-3">Note</div>
-                        <div class="col-9">{{ $order->note }}</div>
+                        <div class="col-3">Note Mandata Altro</div>
+                        <div class="col-9">{{ $order->note3 }}</div>
                     </div>
+                    @endif
                     <br>
                     <div style="display: flex; justify-content: space-between">
                         <div><a target="_blank" href="{{ route('stampaOrdine', $order->id) }}" class="btn btn-success">Stampa</a></div>

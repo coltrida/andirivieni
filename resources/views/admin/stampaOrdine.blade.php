@@ -35,11 +35,27 @@
                         <br>
                         <hr>
                     @endforeach
-                    <br>
-                    <div class="row" style="width: 100%">
-                        <div style="display: inline-block; width: 20%; font-size: 15px">Note</div>
-                        <div style="display: inline-block; width: 60%; font-size: 15px">{{ $order->note }}</div>
-                    </div>
+
+                    @if($order->note)
+                        <div class="row">
+                            <div class="col-3" style="color: red">Note Prima Mandata</div>
+                            <div class="col-9">{{ $order->note }}</div>
+                        </div>
+                    @endif
+                    <hr>
+                    @if($order->note2)
+                        <div class="row">
+                            <div class="col-3" style="color: red">Note Seconda Mandata</div>
+                            <div class="col-9">{{ $order->note2 }}</div>
+                        </div>
+                    @endif
+                    <hr>
+                    @if($order->note3)
+                        <div class="row">
+                            <div class="col-3" style="color: red">Note Mandata Altro</div>
+                            <div class="col-9">{{ $order->note3 }}</div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

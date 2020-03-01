@@ -20,6 +20,8 @@ class CreateOrdersTable extends Migration
             $table->integer('nrPersone');
             $table->string('stato');
             $table->string('note')->nullable();
+            $table->string('note2')->nullable();
+            $table->string('note3')->nullable();
             $table->timestamps();
         });
     }

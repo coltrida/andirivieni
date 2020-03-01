@@ -22,6 +22,7 @@ Route::post('/riepilogo/{order}', 'HomeController@riepilogo')->name('riepilogo')
 Route::get('/inviaPrenotazione/{order}', 'HomeController@inviaPrenotazione')->name('inviaPrenotazione');
 Route::get('/getNuoviOrdini', 'HomeController@getNuoviOrdini')->name('getNuoviOrdini');
 Route::get('/getStatoTavoli', 'HomeController@getStatoTavoli')->name('getStatoTavoli');
+Route::get('/annullaTavolo{tavolo}', 'HomeController@annullaTavolo')->name('annullaTavolo');
 
 /*----- Admin -----*/
 Route::get('/caricatavoli', 'AdminController@caricatavoli')->name('caricatavoli');

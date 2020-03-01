@@ -31,6 +31,11 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                @if($order->note)
+                                    <div class="alert alert-danger" role="alert">
+                                        Note Prima Mandata: {{ $order->note }}
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="col-md-4">
@@ -51,6 +56,11 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                @if($order->note2)
+                                    <div class="alert alert-danger" role="alert">
+                                        Note Seconda Mandata: {{ $order->note2 }}
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="col-md-4">
@@ -71,12 +81,11 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="alert alert-danger" style="margin-left: 15px"  role="alert">
-                                <div>
-                                    Note: {{ $order->note }}
-                                </div>
-
+                                @if($order->note3)
+                                    <div class="alert alert-danger" role="alert">
+                                            Note Mandata Altro: {{ $order->note3 }}
+                                    </div>
+                                @endif
                             </div>
 
                         </div>

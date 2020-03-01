@@ -24,8 +24,9 @@
                                 <i class="fas fa-user" style="font-size: 180px"></i>
                             </div>
                             <div>
-                                <input class="form-control border border-secondary" onchange="invia()" style="box-shadow: 1px 1px 2px black"
-                                       type="number" id="coperti" value="0">
+                                <input class="form-control border border-secondary" onkeypress="controlla()" onchange="invia()"
+                                       style="box-shadow: 1px 1px 2px black"
+                                       type="number" min="0" id="coperti" value="0">
                             </div>
                         </div>
 
@@ -43,7 +44,7 @@
                                     <input type="hidden" name="coperti" id="prendicoperti" value="">
                                     <div style="display: flex; justify-content: space-between;">
                                         <input type="submit" id="buttonok" value="Ok" class="btn btn-primary mr-5 not-active">
-                                        <a href="#" class="btn btn-danger">Annulla</a>
+                                        <a href="{{route('home')}}" class="btn btn-danger">Annulla</a>
                                     </div>
 
                                 </form>
@@ -57,10 +58,20 @@
 @endsection
 
 <script>
+    function controlla() {
+            var button = document.getElementById('buttonok');
+            button.classList.remove('not-active');
+    }
+
     function invia(){
         valore = parseInt(document.getElementById('coperti').value);
-        document.getElementById('prendicoperti').value = valore;
+        if (valore > 0) {
+            document.getElementById('prendicoperti').value = valore;
+            var button = document.getElementById('buttonok');
+            button.classList.remove('not-active');
+        }
     }
+
 
     
     function aggiungi() {

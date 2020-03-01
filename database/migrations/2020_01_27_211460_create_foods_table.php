@@ -21,8 +21,8 @@ class CreateFoodsTable extends Migration
                 ->on('categories')
                 ->references('id')->onDelete('cascade')->onUpdate('cascade');
             $table->string('destinazione');
-            $table->integer('price');
-            $table->integer('cost');
+            $table->float('price', 4, 2);
+            $table->float('cost', 4,2);
             $table->boolean('inmenu');
             $table->timestamps();
         });

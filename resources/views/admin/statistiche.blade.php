@@ -27,9 +27,9 @@
                         <tr>
                             <td>{{$foods[$key-1]->name}}</td>
                             <td>{{$item}}</td>
-                            <td>{{$foods[$key-1]->price}}</td>
-                            <td>{{$foods[$key-1]->price * $item}}</td>
-                            <td>{{$foods[$key-1]->cost * $item}}</td>
+                            <td>{{str_replace('.', ',', $foods[$key-1]->price)}}</td>
+                            <td>{{str_replace('.', ',', $foods[$key-1]->price * $item)}}</td>
+                            <td>{{str_replace('.', ',', $foods[$key-1]->cost * $item)}}</td>
                         </tr>
                     @endforeach
                     </tbody>

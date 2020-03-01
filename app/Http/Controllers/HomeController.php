@@ -60,10 +60,16 @@ class HomeController extends Controller
             return view('camerieri.coperti', compact('tavolo'));
         } elseif ($tavolo->stato == 'occupato') {
             $menu = Category::orderBy('id', 'ASC')->with('foods')->get();
-            $ordine = Order::with('foods')->where([
-                ['nrTavolo', $tavolo->id],
-                ['stato', '!=', 'libero'],
-            ])->first();
+            $ordine = Order::with('foods')
+                ->where([
+                    ['nrTavolo', $tavolo->id],
+                    ['stato', 'occupato'],
+                ])
+                ->orWhere([
+                    ['nrTavolo', $tavolo->id],
+                    ['stato', 'inviato'],
+                ])
+                ->first();
 
             //dd($ordine);
 
@@ -95,9 +101,13 @@ class HomeController extends Controller
 
     public function riepilogo(Request $request, Order $order)
     {
+        //dd($request);
         $tavolo = $request->tavolo;
         $coperti = $request->persone;
-        $order->note = $request->note;
+        $order->note = $request->note1;
+        $order->note2 = $request->note2;
+        $order->note3 = $request->note3;
+        $order->nrPersone = $coperti;
         $order->save();
 
         $cancellaPiatti = Food_Order::where('order_id', $order->id)->delete();
@@ -145,6 +155,19 @@ class HomeController extends Controller
         $order->stato = 'inviato';
         $order->save();
         //event(new NewOrderCreated($order));
+        return redirect()->route('home');
+    }
+
+    public function annullaTavolo(Tavolo $tavolo)
+    {
+        $tavolo->stato = 'libero';
+        $tavolo->save();
+
+        $ordine = Order::where([
+            ['nrTavolo', $tavolo->id],
+            ['stato', '!=', 'libero'],
+        ])->delete();
+
         return redirect()->route('home');
     }
 }

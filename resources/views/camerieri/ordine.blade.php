@@ -7,12 +7,19 @@
             <div class="card">
                 <div class="card-header" style="display: flex; justify-content: space-between">
                     <div>
-                        Coperti <input type="number" name="coperti" id="coperti" value="{{ $ordine->nrPersone }}">
+                        Coperti <input type="text" name="coperti" id="coperti" value="{{ $ordine->nrPersone }}">
                         <i class="fas fa-plus" onclick="aggiungicoperti()" ></i>
                         &nbsp;
                         <i class="fas fa-minus" onclick="diminuiscicoperti()" ></i>
                     </div>
-                    <div>Tavolo nr. {{ $ordine->nrTavolo }}</div>
+                    <div style="margin-right: 200px;">
+                        <h1 style="font-weight: bold">
+                            Tavolo nr.
+                            <span class="badge badge-danger" style="box-shadow: 1px 1px 3px black; font-size: 120%; ">
+                                {{ $ordine->nrTavolo }}
+                            </span>
+                        </h1>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -56,7 +63,7 @@
                                                         </div>
                                                         <div>
                                                             <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
-                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <input style='width:40px' type='text' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}' onchange="assegna( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')">
                                                             <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
                                                         </div>
                                                     </div>
@@ -77,7 +84,7 @@
                                                         </div>
                                                         <div>
                                                             <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
-                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <input style='width:40px' type='text' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}' onchange="assegna( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')">
                                                             <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
                                                         </div>
                                                     </div>
@@ -98,7 +105,7 @@
                                                         </div>
                                                         <div>
                                                             <i class='fas fa-plus' onclick="aggiungi( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
-                                                            <input style='width:40px' type='number' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}'>
+                                                            <input style='width:40px' type='text' min='0' name='qta' id="qta{{ $piatto->id }}{{ $piatto->pivot->mandata }}" value='{{ $piatto->pivot->quantity }}' onchange="assegna( '{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')">
                                                             <i class='fas fa-minus' onclick="diminuisci('{{ $piatto->id }}' , '{{ $piatto->pivot->mandata }}')"></i>
                                                         </div>
                                                     </div>
@@ -121,7 +128,16 @@
 
                                 <form action="{{route('riepilogo', $ordine)}}" method="post" id="formriepilogo">
                                     @csrf
-                                    Note: <input class="form-control" type="text" name="note" id="note" value="{{ $ordine->note }}"> <br>
+                                    <div id="notepannel1">
+                                        Note prima Mandata: <input class="form-control" type="text" name="note1" id="note1" value="{{ $ordine->note }}"> <br>
+                                    </div>
+                                    <div id="notepannel2" style="display: none">
+                                        Note seconda Mandata: <input class="form-control" type="text" name="note2" id="note2" value="{{ $ordine->note2 }}"> <br>
+                                    </div>
+                                    <div id="notepannel3" style="display: none">
+                                        Note Mandata Altro: <input class="form-control" type="text" name="note3" id="note3" value="{{ $ordine->note3 }}"> <br>
+                                    </div>
+
                                     @if(count($ordine->foods) > 0)
                                         @foreach($ordine->foods as $piatto)
                                             <input type="hidden" id="passa{{ $piatto->id }}" name="dati[{{ $piatto->id }}{{ $piatto->pivot->mandata }}][0]" value="{{ $piatto->name }}">
@@ -137,8 +153,15 @@
                                         @endforeach
                                     @endif
                                     <input type="hidden" name="tavolo" value="{{ $ordine->nrTavolo }}">
-                                    <input type="hidden" name="persone" value="{{ $ordine->nrPersone }}">
-                                    <input type="submit" class="btn btn-success" style="height: 80px" value="Riepilogo">
+                                    <input type="hidden" name="persone" id="person" value="{{ $ordine->nrPersone }}">
+                                    <div style="display: flex">
+                                        <input type="submit" class="btn btn-success" style="height: 80px" value="Riepilogo">
+                                        <a href="{{ route('annullaTavolo', $ordine->nrTavolo) }}"
+                                           class="btn btn-danger"
+                                           style="margin-left: 5px; height: 80px; width: 87px; line-height: 65px;">
+                                            Annulla
+                                        </a>
+                                    </div>
                                 </form>
                             </div>
 
@@ -163,12 +186,18 @@
         cop = parseInt(document.getElementById('coperti').value);
         cop ++;
         document.getElementById('coperti').value = cop;
+        document.getElementById('person').value = cop;
     }
 
     function diminuiscicoperti() {
         cop = parseInt(document.getElementById('coperti').value);
-        cop --;
+        if (cop <=0){
+            cop = 0;
+        } else{
+            cop --;
+        }
         document.getElementById('coperti').value = cop;
+        document.getElementById('person').value = cop;
     }
 
     function inseriscicomanda(nome, id) {
@@ -192,11 +221,12 @@
         } else {
 
             var divtest = document.createElement("div");
+
             divtest.style.cssText = 'background-color: #59A772; padding: 7px; border-radius: 10px; margin-bottom: 7px';
             divtest.innerHTML =
                 "<div id='elem" + id + ll + "' style='display:flex;justify-content:space-between'><div>"
                 + nome +
-                "</div> <div> <i class='fas fa-plus' onclick='aggiungi(" + id + ',' + ll + ")'></i> <input style='width:40px' type='number' min='0' name='qta' id='qta" + id + ll + "' value='1'><i class='fas fa-minus' onclick='diminuisci(" + id + ',' + ll + ")'></i> </div></div> "
+                "</div> <div> <i class='fas fa-plus' onclick='aggiungi(" + id + ',' + ll + ")'></i> <input style='width:40px' type='text' min='0' name='qta' id='qta" + id + ll + "' value='1' onchange='assegna(" + id + ',' + ll + ")' ><i class='fas fa-minus' onclick='diminuisci(" + id + ',' + ll + ")'></i> </div></div> "
             ;
 
             document.getElementById(lista).appendChild(divtest);
@@ -236,14 +266,28 @@
             document.getElementById('listamandata1').style.display = "block";
             document.getElementById('listamandata2').style.display = "none";
             document.getElementById('listaaltro').style.display = "none";
+
+            document.getElementById('notepannel1').style.display = "block";
+            document.getElementById('notepannel2').style.display = "none";
+            document.getElementById('notepannel3').style.display = "none";
         } else if (mandata == 2){
             document.getElementById('listamandata2').style.display = "block";
             document.getElementById('listamandata1').style.display = "none";
             document.getElementById('listaaltro').style.display = "none";
+
+            document.getElementById('notepannel2').style.display = "block";
+            document.getElementById('notepannel1').style.display = "none";
+            document.getElementById('notepannel3').style.display = "none";
+
         } else if (mandata == 3){
             document.getElementById('listamandata1').style.display = "none";
             document.getElementById('listamandata2').style.display = "none";
             document.getElementById('listaaltro').style.display = "block";
+
+            document.getElementById('notepannel3').style.display = "block";
+            document.getElementById('notepannel2').style.display = "none";
+            document.getElementById('notepannel1').style.display = "none";
+
         }
     }
 
@@ -264,6 +308,13 @@
             destinazione = 'listaaltro';
         }
 
+        document.getElementById('qta'+idpassato+dest+'1').value = valore;
+    }
+
+    function assegna(idpassato, dest) {
+        var idqta = "qta"+idpassato+dest;
+        valore = document.getElementById(idqta).value;
+        //alert(valore);
         document.getElementById('qta'+idpassato+dest+'1').value = valore;
     }
 
