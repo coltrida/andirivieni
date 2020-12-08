@@ -22,7 +22,11 @@ Route::apiResource('/camerieri', 'Api\HomeController');
 
 Route::get('/camerieri', 'Api\HomeController@camerieri');
 Route::get('/ordini', 'Api\HomeController@ordini');
+Route::get('/tavoloConOrdine/{tavolo}', 'Api\HomeController@selezionaTavolo');
 Route::get('/piatti', 'Api\HomeController@piatti');
+Route::get('/categorie', 'Api\HomeController@categorie');
 Route::get('/piattiOrdine', 'Api\HomeController@piattiOrdine');
 Route::get('/piattiOrdineSpecifico/{order}', 'Api\HomeController@piattiOrdineSpecifico');
+
+Route::post('/prenotaTavolo', 'Api\HomeController@prenotaTavolo');
 
